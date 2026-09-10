@@ -67,3 +67,5 @@ class _SplashScreenState extends State<SplashScreen> {
         );
   }
 }
+
+// Note: The `mounted` property is used to check if the widget is still in the widget tree before performing navigation. This prevents potential errors if the widget has been disposed of before the timer completes.
