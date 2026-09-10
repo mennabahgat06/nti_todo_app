@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/features/splash_screen/splash_screen.dart';
+import 'package:todo_app/features/splash_screen/presentation/splash_screen.dart';
 
 // Entry point of the application
 void main() {

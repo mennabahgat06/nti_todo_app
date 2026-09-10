@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../core/utils/app_colors.dart';
-import '../core/utils/app_fonts.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_fonts.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
-  final String hintText;
-  final IconData prefixIcon;
+  final String? hintText;
+  final IconData? prefixIcon;
   final bool isPassword;
   final bool isObscured;
   final VoidCallback? onToggleVisibility;
@@ -13,11 +13,15 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     super.key,
     required this.controller,
-    required this.hintText,
-    required this.prefixIcon,
+    this.hintText,
+    this.prefixIcon,
     this.isPassword = false,
     this.isObscured = false,
     this.onToggleVisibility,
+    InputDecoration? decoration,
+    int? maxLines,
+    bool? readOnly,
+    Future<Null> Function()? onTap,
   });
 
   @override

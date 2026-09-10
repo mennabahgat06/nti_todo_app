@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/core/utils/app_assets.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_fonts.dart';
-import 'package:todo_app/features/register_screen/register_screen.dart';
+import 'package:todo_app/features/register_screen/presentation/register_screen.dart';
 
 class StartingScreen extends StatefulWidget {
   const StartingScreen({super.key});

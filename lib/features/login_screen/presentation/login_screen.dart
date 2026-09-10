@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../core/utils/app_assets.dart';
-import '../core/utils/app_colors.dart';
-import '../core/utils/app_fonts.dart';
-import 'home_screen.dart';
-import 'register_screen.dart';
+import 'package:todo_app/core/utils/app_assets.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_fonts.dart';
+import 'package:todo_app/core/widgets/custom_txt_field.dart';
+import 'package:todo_app/features/home_screen/presentation/home_screen.dart';
+import 'package:todo_app/features/register_screen/presentation/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,16 +14,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  // controllers for the text fields
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _obscurePassword = true;
 
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+// variable to manage the visibility of password field
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            /// ***************** 1- Header ****************************************
             ClipRRect(
               borderRadius: const BorderRadius.only(
                 bottomLeft: Radius.circular(28),
@@ -44,62 +42,34 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(height: 36),
+
+            /// ***************** 2- Login Form ****************************************
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Column(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.fieldFill,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.fieldBorder),
-                    ),
-                    child: TextField(
-                      controller: _usernameController,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                        prefixIcon: Icon(Icons.person_outline,
-                            color: AppColors.textGrey, size: 20),
-                        hintText: 'Username',
-                        hintStyle: AppFonts.inputLabel,
-                      ),
-                    ),
+                  // 1- username
+                  CustomTextField(
+                    controller: _usernameController,
+                    hintText: 'Username',
+                    prefixIcon: Icons.person_outline,
                   ),
                   const SizedBox(height: 16),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.fieldFill,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppColors.fieldBorder),
-                    ),
-                    child: TextField(
-                      controller: _passwordController,
-                      obscureText: _obscurePassword,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 14),
-                        prefixIcon: const Icon(Icons.lock_outline,
-                            color: AppColors.textGrey, size: 20),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _obscurePassword
-                                ? Icons.lock_outline
-                                : Icons.lock_open,
-                            color: AppColors.textGrey,
-                            size: 20,
-                          ),
-                          onPressed: () => setState(
-                              () => _obscurePassword = !_obscurePassword),
-                        ),
-                        hintText: 'Password',
-                        hintStyle: AppFonts.inputLabel,
-                      ),
-                    ),
+
+                  // 2- password
+                  CustomTextField(
+                    controller: _passwordController,
+                    hintText: 'Password',
+                    prefixIcon: Icons.lock_outline,
+                    isPassword: true,
+                    isObscured: _obscurePassword,
+                    onToggleVisibility: () {
+                      setState(() => _obscurePassword = !_obscurePassword);
+                    },
                   ),
                   const SizedBox(height: 24),
+
+                  // 3- login button
                   SizedBox(
                     width: double.infinity,
                     height: 50,
@@ -121,6 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   const SizedBox(height: 18),
+
+                  // 4- register link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -151,5 +123,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 }

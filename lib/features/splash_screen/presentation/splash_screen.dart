@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/core/utils/app_assets.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_fonts.dart';
-import 'package:todo_app/features/starting_screen/lets_start_screen.dart';
+import 'package:todo_app/features/starting_screen/presentation/lets_start_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

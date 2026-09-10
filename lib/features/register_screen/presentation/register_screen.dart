@@ -3,7 +3,7 @@ import 'package:todo_app/core/utils/app_assets.dart';
 import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_fonts.dart';
 import 'package:todo_app/core/widgets/custom_txt_field.dart';
-import 'package:todo_app/features/login_screen/login_screen.dart';
+import 'package:todo_app/features/login_screen/presentation/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
