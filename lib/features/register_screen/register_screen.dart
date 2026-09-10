@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import '../core/utils/app_assets.dart';
-import '../core/utils/app_colors.dart';
-import '../core/utils/app_fonts.dart';
-import 'login_screen.dart';
+import 'package:todo_app/core/utils/app_assets.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_fonts.dart';
+import 'package:todo_app/core/widgets/custom_txt_field.dart';
+import 'package:todo_app/features/login_screen/login_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -12,72 +13,33 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  // controllers for the text fields
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
+// variables to manage the visibility of password fields
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
 
   @override
-  void dispose() {
-    _usernameController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    required IconData prefixIcon,
-    bool isPassword = false,
-    bool isObscured = false,
-    VoidCallback? onToggleVisibility,
-  }) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.fieldFill,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.fieldBorder),
-      ),
-      child: TextField(
-        controller: controller,
-        obscureText: isPassword ? isObscured : false,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          prefixIcon: Icon(prefixIcon, color: AppColors.textGrey, size: 20),
-          suffixIcon: isPassword
-              ? IconButton(
-                  icon: Icon(
-                    isObscured ? Icons.lock_outline : Icons.lock_open,
-                    color: AppColors.textGrey,
-                    size: 20,
-                  ),
-                  onPressed: onToggleVisibility,
-                )
-              : null,
-          hintText: hintText,
-          hintStyle: AppFonts.inputLabel,
-        ),
-      ),
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appearance of the screen
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         child: Column(
+          // main content of the screen
           children: [
+            /// ***************** 1- Header ****************************************
+
+            // 1- header image with "Pick Image" button
             Stack(
               clipBehavior: Clip.none,
               alignment: Alignment.bottomCenter,
               children: [
+                // first widg in stake
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(28),
@@ -90,13 +52,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     fit: BoxFit.cover,
                   ),
                 ),
+
+                // second widg in stake
                 Positioned(
-                  bottom: -15,
+                  bottom: -15, // TRY : 00
+
                   child: Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.white.withOpacity(0.9),
+                      color: AppColors.white.withValues(alpha: 0.9),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: const [
                         BoxShadow(
@@ -115,17 +80,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ],
             ),
             const SizedBox(height: 36),
+
+            /// ***************** 2- Registration Form ****************************************
+
+            // 2- form fields and buttons
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Column(
                 children: [
-                  _buildTextField(
+                  // 1- username
+                  CustomTextField(
                     controller: _usernameController,
                     hintText: 'Username',
                     prefixIcon: Icons.person_outline,
                   ),
                   const SizedBox(height: 16),
-                  _buildTextField(
+
+                  // 2- password
+                  CustomTextField(
                     controller: _passwordController,
                     hintText: 'Password',
                     prefixIcon: Icons.lock_outline,
@@ -135,7 +108,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() => _obscurePassword = !_obscurePassword),
                   ),
                   const SizedBox(height: 16),
-                  _buildTextField(
+
+                  // 3- confirm password
+                  CustomTextField(
                     controller: _confirmPasswordController,
                     hintText: 'Confirm Password',
                     prefixIcon: Icons.lock_outline,
@@ -145,6 +120,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         _obscureConfirmPassword = !_obscureConfirmPassword),
                   ),
                   const SizedBox(height: 24),
+
+                  // 4- register button
                   SizedBox(
                     width: double.infinity,
                     height: 50,
@@ -166,6 +143,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                   ),
                   const SizedBox(height: 18),
+
+                  // 5- login link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -196,5 +175,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
   }
 }
