@@ -79,7 +79,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
               children: [
                 const CircleAvatar(
                   radius: 22,
-                  backgroundImage: AssetImage(AppAssets.headerFlag),
+                  backgroundImage: AssetImage(AppAssets.flagPng),
                 ),
                 const SizedBox(width: 12),
                 Column(

@@ -46,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     bottomRight: Radius.circular(28),
                   ),
                   child: Image.asset(
-                    AppAssets.headerFlag,
+                    AppAssets.flagPng,
                     width: double.infinity,
                     height: 240,
                     fit: BoxFit.cover,

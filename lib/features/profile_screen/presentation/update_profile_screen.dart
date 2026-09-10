@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/app_assets.dart';
-import '../../../core/constants/app_colors.dart';
-import '../../../core/widgets/custom_text_field.dart';
+import 'package:todo_app/core/utils/app_assets.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/widgets/custom_txt_field.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   const UpdateProfileScreen({super.key});
@@ -11,7 +11,8 @@ class UpdateProfileScreen extends StatefulWidget {
 }
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
-  final TextEditingController _usernameController = TextEditingController(text: 'Ahmed Saber');
+  final TextEditingController _usernameController =
+      TextEditingController(text: 'Ahmed Saber');
 
   @override
   void dispose() {
@@ -34,7 +35,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     bottomRight: Radius.circular(28),
                   ),
                   child: Image.asset(
-                    AppAssets.headerFlag,
+                    AppAssets.flagPng,
                     width: double.infinity,
                     height: 240,
                     fit: BoxFit.cover,
@@ -47,7 +48,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     backgroundColor: Colors.white70,
                     radius: 18,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new, size: 16, color: AppColors.textBlack),
+                      icon: const Icon(Icons.arrow_back_ios_new,
+                          size: 16, color: AppColors.textBlack),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),

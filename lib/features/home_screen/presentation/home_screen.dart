@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   const CircleAvatar(
                     radius: 22,
-                    backgroundImage: AssetImage(AppAssets.headerFlag),
+                    backgroundImage: AssetImage(AppAssets.flagPng),
                   ),
                   const SizedBox(width: 12),
 

@@ -66,7 +66,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: Image.asset(
-                AppAssets.headerFlag,
+                AppAssets.flagPng,
                 height: 180,
                 width: double.infinity,
                 fit: BoxFit.cover,

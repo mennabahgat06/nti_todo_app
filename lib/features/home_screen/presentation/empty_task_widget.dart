@@ -17,7 +17,7 @@ class EmptyTasksWidget extends StatelessWidget {
             style: AppFonts.bodyRegular,
           ),
           const SizedBox(height: 24),
-          Image.asset(AppAssets.emptyTasksIllustration, height: 210),
+          Image.asset(AppAssets.noTasksPng, height: 210),
         ],
       ),
     );

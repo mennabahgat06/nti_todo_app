@@ -25,7 +25,7 @@ class _StartingScreenState extends State<StartingScreen> {
             children: [
               // 1- logo
               const Spacer(),
-              Image.asset(AppAssets.onboardingIllustration, height: 260),
+              Image.asset(AppAssets.startPng, height: 260),
 
               // 2- title
               const SizedBox(height: 36),

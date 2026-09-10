@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../core/constants/app_assets.dart';
-import '../../../core/constants/app_colors.dart';
-import '../../../core/constants/app_fonts.dart';
-import '../../../core/widgets/custom_text_field.dart';
+import 'package:todo_app/core/utils/app_assets.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_fonts.dart';
+import 'package:todo_app/core/widgets/custom_txt_field.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -14,7 +14,8 @@ class ChangePasswordScreen extends StatefulWidget {
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   bool _obscureOld = true;
   bool _obscureNew = true;
@@ -43,7 +44,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     bottomRight: Radius.circular(28),
                   ),
                   child: Image.asset(
-                    AppAssets.headerFlag,
+                    AppAssets.flagPng,
                     width: double.infinity,
                     height: 240,
                     fit: BoxFit.cover,
@@ -56,7 +57,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     backgroundColor: Colors.white70,
                     radius: 18,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new, size: 16, color: AppColors.textBlack),
+                      icon: const Icon(Icons.arrow_back_ios_new,
+                          size: 16, color: AppColors.textBlack),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
@@ -74,7 +76,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     prefixIcon: Icons.lock_outline,
                     isPassword: true,
                     isObscured: _obscureOld,
-                    onToggleVisibility: () => setState(() => _obscureOld = !_obscureOld),
+                    onToggleVisibility: () =>
+                        setState(() => _obscureOld = !_obscureOld),
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
@@ -83,7 +86,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     prefixIcon: Icons.lock_outline,
                     isPassword: true,
                     isObscured: _obscureNew,
-                    onToggleVisibility: () => setState(() => _obscureNew = !_obscureNew),
+                    onToggleVisibility: () =>
+                        setState(() => _obscureNew = !_obscureNew),
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
@@ -92,7 +96,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     prefixIcon: Icons.lock_outline,
                     isPassword: true,
                     isObscured: _obscureConfirm,
-                    onToggleVisibility: () => setState(() => _obscureConfirm = !_obscureConfirm),
+                    onToggleVisibility: () =>
+                        setState(() => _obscureConfirm = !_obscureConfirm),
                   ),
                   const SizedBox(height: 28),
                   SizedBox(
