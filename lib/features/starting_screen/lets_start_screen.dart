@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../core/utils/app_assets.dart';
-import '../core/utils/app_colors.dart';
-import '../core/utils/app_fonts.dart';
-import 'register_screen.dart';
+import 'package:todo_app/core/utils/app_assets.dart';
+import 'package:todo_app/core/utils/app_colors.dart';
+import 'package:todo_app/core/utils/app_fonts.dart';
+import 'package:todo_app/features/register_screen/register_screen.dart';
 
 class LetsStartScreen extends StatefulWidget {
   const LetsStartScreen({super.key});
@@ -15,26 +15,35 @@ class _LetsStartScreenState extends State<LetsStartScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // appearance of the screen
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Column(
+            // main content of the screen
             children: [
+              // 1- logo
               const Spacer(),
               Image.asset(AppAssets.onboardingIllustration, height: 260),
+
+              // 2- title
               const SizedBox(height: 36),
               const Text(
                 'Welcome To\nDo It !',
                 textAlign: TextAlign.center,
                 style: AppFonts.titleBold,
               ),
+
+              // 3- description
               const SizedBox(height: 14),
               const Text(
                 'Ready to conquer your tasks? Let\'s Do\nIt together.',
                 textAlign: TextAlign.center,
                 style: AppFonts.bodyRegular,
               ),
+
+              // 4- button
               const Spacer(),
               SizedBox(
                 width: double.infinity,
@@ -57,6 +66,7 @@ class _LetsStartScreenState extends State<LetsStartScreen> {
                   child: const Text('Let\'s Start', style: AppFonts.buttonText),
                 ),
               ),
+
               const SizedBox(height: 20),
             ],
           ),
@@ -65,3 +75,6 @@ class _LetsStartScreenState extends State<LetsStartScreen> {
     );
   }
 }
+
+// try to build a function that returns the button, and then call that function in the build method.
+//This will make the code more organized and easier to read.
