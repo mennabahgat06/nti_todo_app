@@ -4,14 +4,14 @@ import 'package:todo_app/core/utils/app_colors.dart';
 import 'package:todo_app/core/utils/app_fonts.dart';
 import 'package:todo_app/features/register_screen/register_screen.dart';
 
-class LetsStartScreen extends StatefulWidget {
-  const LetsStartScreen({super.key});
+class StartingScreen extends StatefulWidget {
+  const StartingScreen({super.key});
 
   @override
-  State<LetsStartScreen> createState() => _LetsStartScreenState();
+  State<StartingScreen> createState() => _StartingScreenState();
 }
 
-class _LetsStartScreenState extends State<LetsStartScreen> {
+class _StartingScreenState extends State<StartingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
