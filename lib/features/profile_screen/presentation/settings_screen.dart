@@ -42,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: AppColors.fieldBorder.withOpacity(0.5),
+                color: AppColors.fieldBorder.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(
