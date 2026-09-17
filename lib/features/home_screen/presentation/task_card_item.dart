@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/utils/app_colors.dart';
-import 'package:todo_app/features/home_screen/data/models/task_model.dart';
+import '../../../core/utils/app_colors.dart';
+import '../data/models/task_model.dart';
 
 class TaskCardItem extends StatelessWidget {
   final TaskModel task;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
 
   const TaskCardItem({
     super.key,
     required this.task,
-    this.onTap,
+    required this.onTap,
   });
 
   @override
@@ -31,18 +31,16 @@ class TaskCardItem extends StatelessWidget {
               children: [
                 Text(
                   task.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textBlack,
+                    decoration: task.isDone ? TextDecoration.lineThrough : TextDecoration.none,
                   ),
                 ),
                 Text(
                   task.dateTime,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: AppColors.textGrey,
-                  ),
+                  style: const TextStyle(fontSize: 11, color: AppColors.textGrey),
                 ),
               ],
             ),
@@ -51,10 +49,7 @@ class TaskCardItem extends StatelessWidget {
               task.description,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 13,
-                color: AppColors.textBlack,
-              ),
+              style: const TextStyle(fontSize: 13, color: AppColors.textBlack),
             ),
           ],
         ),

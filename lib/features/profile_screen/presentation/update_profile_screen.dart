@@ -1,23 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/utils/app_assets.dart';
-import 'package:todo_app/core/utils/app_colors.dart';
-import 'package:todo_app/core/widgets/custom_txt_field.dart';
+import '../../../../core/utils/app_assets.dart';
+import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_fonts.dart';
+import '../../../../core/widgets/custom_txt_field.dart';
+import '../../login_screen/data/services/auth_service.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
-  const UpdateProfileScreen({super.key});
+  final String currentUsername;
+
+  const UpdateProfileScreen({super.key, required this.currentUsername});
 
   @override
   State<UpdateProfileScreen> createState() => _UpdateProfileScreenState();
 }
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
-  final TextEditingController _usernameController =
-      TextEditingController(text: 'Ahmed Saber');
+  late TextEditingController _usernameController;
+  final AuthService _authService = AuthService();
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController = TextEditingController(text: widget.currentUsername);
+  }
 
   @override
   void dispose() {
     _usernameController.dispose();
     super.dispose();
+  }
+
+  Future<void> _handleUpdate() async {
+    setState(() => _isLoading = true);
+    try {
+      await _authService.updateProfile(username: _usernameController.text.trim());
+      if (!mounted) return;
+      Navigator.pop(context);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -48,8 +73,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     backgroundColor: Colors.white70,
                     radius: 18,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new,
-                          size: 16, color: AppColors.textBlack),
+                      icon: const Icon(Icons.arrow_back_ios_new, size: 16, color: AppColors.textBlack),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
@@ -59,10 +83,29 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             const SizedBox(height: 36),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: CustomTextField(
-                controller: _usernameController,
-                hintText: 'Username',
-                prefixIcon: Icons.person_outline,
+              child: Column(
+                children: [
+                  CustomTextField(
+                    controller: _usernameController,
+                    hintText: 'Username',
+                    prefixIcon: Icons.person_outline,
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                      ),
+                      onPressed: _isLoading ? null : _handleUpdate,
+                      child: _isLoading
+                          ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                          : const Text('Save', style: AppFonts.buttonText),
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

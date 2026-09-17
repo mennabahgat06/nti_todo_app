@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/utils/app_assets.dart';
-import 'package:todo_app/core/utils/app_colors.dart';
-import 'package:todo_app/core/utils/app_fonts.dart';
-import 'package:todo_app/core/widgets/custom_txt_field.dart';
+import '../../../../core/utils/app_assets.dart';
+import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_fonts.dart';
+import '../../../../core/widgets/custom_txt_field.dart';
 import '../data/models/task_model.dart';
+import '../data/services/task_service.dart';
 
 class EditTaskScreen extends StatefulWidget {
   final TaskModel task;
@@ -19,6 +20,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   late TextEditingController _descController;
   late TextEditingController _timeController;
   late String _selectedGroup;
+  final TaskService _taskService = TaskService();
+
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -37,6 +41,38 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     super.dispose();
   }
 
+  Future<void> _handleUpdate() async {
+    setState(() => _isLoading = true);
+    try {
+      await _taskService.updateTask(
+        id: widget.task.id,
+        title: _titleController.text.trim(),
+        description: _descController.text.trim(),
+      );
+      if (!mounted) return;
+      Navigator.pop(context, 'refresh');
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _handleDelete() async {
+    setState(() => _isLoading = true);
+    try {
+      await _taskService.deleteTask(widget.task.id);
+      if (!mounted) return;
+      Navigator.pop(context, 'delete');
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +81,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new,
-              size: 18, color: AppColors.textBlack),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 18, color: AppColors.textBlack),
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
@@ -56,17 +91,13 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
             margin: const EdgeInsets.only(right: 16),
             child: TextButton.icon(
               style: TextButton.styleFrom(
-                backgroundColor: AppColors.primaryDark,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                backgroundColor: AppColors.danger,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               ),
-              onPressed: () => Navigator.pop(context, 'delete'),
-              icon: const Icon(Icons.delete_outline,
-                  color: AppColors.white, size: 14),
-              label: const Text('Delete',
-                  style: TextStyle(color: AppColors.white, fontSize: 11)),
+              onPressed: _isLoading ? null : _handleDelete,
+              icon: const Icon(Icons.delete_outline, color: AppColors.white, size: 14),
+              label: const Text('Delete', style: TextStyle(color: AppColors.white, fontSize: 11)),
             ),
           ),
         ],
@@ -87,13 +118,10 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   children: [
                     Text(
                       widget.task.isDone ? 'Done' : 'In Progress',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 14),
+                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                     Text(
-                      widget.task.isDone
-                          ? 'Congrats!'
-                          : 'Believe you can, and you\'re halfway there.',
+                      widget.task.isDone ? 'Congrats!' : 'Believe you can, and you\'re halfway there.',
                       style: AppFonts.bodyRegular.copyWith(fontSize: 11),
                     ),
                   ],
@@ -110,29 +138,23 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.home_outlined,
-                      color: Colors.pinkAccent, size: 20),
+                  const Icon(Icons.home_outlined, color: Colors.pinkAccent, size: 20),
                   const SizedBox(width: 12),
                   Text(_selectedGroup, style: const TextStyle(fontSize: 14)),
                   const Spacer(),
-                  const Icon(Icons.keyboard_arrow_down,
-                      color: AppColors.textGrey),
+                  const Icon(Icons.keyboard_arrow_down, color: AppColors.textGrey),
                 ],
               ),
             ),
             const SizedBox(height: 14),
-            CustomTextField(
-                controller: _titleController, hintText: 'Title', maxLines: 1),
+            CustomTextField(controller: _titleController, hintText: 'Title'),
             const SizedBox(height: 14),
-            CustomTextField(
-                controller: _descController,
-                hintText: 'Description',
-                maxLines: 4),
+            CustomTextField(controller: _descController, hintText: 'Description', maxLines: 4),
             const SizedBox(height: 14),
             CustomTextField(
               controller: _timeController,
               hintText: 'End Time',
-              prefixIcon: Icons.calendar_month_outlined,
+              prefixWidget: const Icon(Icons.calendar_month_outlined, color: AppColors.primary, size: 20),
               readOnly: true,
             ),
             const SizedBox(height: 28),
@@ -142,8 +164,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                 ),
                 onPressed: () {
                   setState(() => widget.task.isDone = true);
@@ -158,18 +179,15 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: AppColors.primary),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                 ),
-                onPressed: () {
-                  widget.task.isDone = widget.task.isDone;
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  'Update',
-                  style: TextStyle(
-                      color: AppColors.primary, fontWeight: FontWeight.bold),
-                ),
+                onPressed: _isLoading ? null : _handleUpdate,
+                child: _isLoading
+                    ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: AppColors.primary, strokeWidth: 2))
+                    : const Text(
+                        'Update',
+                        style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                      ),
               ),
             ),
           ],
