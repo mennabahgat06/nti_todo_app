@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nti_todo_app/core/services/auth_service.dart';
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/widgets/custom_txt_field.dart';
-import '../data/services/auth_service.dart';
 import '../../home_screen/presentation/home_screen.dart';
 import '../../register_screen/presentation/register_screen.dart';
 
@@ -35,7 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (username.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter your username and password')),
+        const SnackBar(
+            content: Text('Please enter your username and password')),
       );
       return;
     }
@@ -94,7 +95,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     prefixIcon: Icons.lock_outline,
                     isPassword: true,
                     isObscured: _obscurePassword,
-                    onToggleVisibility: () => setState(() => _obscurePassword = !_obscurePassword),
+                    onToggleVisibility: () =>
+                        setState(() => _obscurePassword = !_obscurePassword),
                   ),
                   const SizedBox(height: 24),
                   SizedBox(
@@ -109,7 +111,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       onPressed: _isLoading ? null : _handleLogin,
                       child: _isLoading
-                          ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                  color: Colors.white, strokeWidth: 2))
                           : const Text('Login', style: AppFonts.buttonText),
                     ),
                   ),
@@ -117,12 +123,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Don\'t Have An Account? ', style: AppFonts.bodyRegular),
+                      const Text('Don\'t Have An Account? ',
+                          style: AppFonts.bodyRegular),
                       GestureDetector(
                         onTap: () {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => const RegisterScreen()),
                           );
                         },
                         child: Text(

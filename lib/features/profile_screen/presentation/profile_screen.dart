@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nti_todo_app/core/services/auth_service.dart';
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/storage/token_storage.dart';
-import '../../login_screen/data/services/auth_service.dart';
 import '../../login_screen/presentation/login_screen.dart';
 import 'change_password_screen.dart';
 import 'profile_menu_item.dart';
@@ -49,7 +49,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 18, color: AppColors.textBlack),
+          icon: const Icon(Icons.arrow_back_ios_new,
+              size: 18, color: AppColors.textBlack),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -69,8 +70,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Hello!', style: AppFonts.bodyRegular.copyWith(fontSize: 12)),
-                      Text(_username, style: AppFonts.titleBold.copyWith(fontSize: 16)),
+                      Text('Hello!',
+                          style: AppFonts.bodyRegular.copyWith(fontSize: 12)),
+                      Text(_username,
+                          style: AppFonts.titleBold.copyWith(fontSize: 16)),
                     ],
                   ),
                 ],
@@ -82,7 +85,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onTap: () async {
                   await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => UpdateProfileScreen(currentUsername: _username)),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            UpdateProfileScreen(currentUsername: _username)),
                   );
                   _loadUser();
                 },
@@ -93,7 +98,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const ChangePasswordScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const ChangePasswordScreen()),
                   );
                 },
               ),
@@ -103,7 +109,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const SettingsScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const SettingsScreen()),
                   );
                 },
               ),
@@ -115,7 +122,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   if (!mounted) return;
                   Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => const LoginScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()),
                     (route) => false,
                   );
                 },

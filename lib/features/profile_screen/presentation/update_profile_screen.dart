@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nti_todo_app/core/services/auth_service.dart';
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/widgets/custom_txt_field.dart';
-import '../../login_screen/data/services/auth_service.dart';
 
 class UpdateProfileScreen extends StatefulWidget {
   final String currentUsername;
@@ -34,12 +34,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   Future<void> _handleUpdate() async {
     setState(() => _isLoading = true);
     try {
-      await _authService.updateProfile(username: _usernameController.text.trim());
+      await _authService.updateProfile(
+          username: _usernameController.text.trim());
       if (!mounted) return;
       Navigator.pop(context);
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -73,7 +75,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     backgroundColor: Colors.white70,
                     radius: 18,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new, size: 16, color: AppColors.textBlack),
+                      icon: const Icon(Icons.arrow_back_ios_new,
+                          size: 16, color: AppColors.textBlack),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
@@ -97,11 +100,16 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25)),
                       ),
                       onPressed: _isLoading ? null : _handleUpdate,
                       child: _isLoading
-                          ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                  color: Colors.white, strokeWidth: 2))
                           : const Text('Save', style: AppFonts.buttonText),
                     ),
                   ),

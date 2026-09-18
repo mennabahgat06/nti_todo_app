@@ -18,30 +18,58 @@ class DioFactory {
         ),
       );
 
+      // طباعة الـ Requests والـ Headers في الـ Terminal لمعاينة التوكن
       _dio!.interceptors.add(
-        InterceptorsWrapper(
+        LogInterceptor(
+          requestHeader: true,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: false,
+          error: true,
+        ),
+      );
+
+      _dio!.interceptors.add(
+        QueuedInterceptorsWrapper(
           onRequest: (options, handler) async {
+            // قراءة التوكن من الذاكرة
             final token = await TokenStorage.getAccessToken();
+
+            // تحقق وطباعة في الكونسول للتأكد
             if (token != null && token.isNotEmpty) {
               options.headers['Authorization'] = 'Bearer $token';
             }
             return handler.next(options);
           },
           onError: (DioException error, handler) async {
-            // Handle automatic token refresh if 401
+            // التعامل مع انتهاء الصلاحية 401
             if (error.response?.statusCode == 401) {
               final refreshToken = await TokenStorage.getRefreshToken();
               if (refreshToken != null && refreshToken.isNotEmpty) {
                 try {
-                  final refreshResponse = await Dio(BaseOptions(baseUrl: EndPoints.baseUrl)).post(
+                  final refreshDio =
+                      Dio(BaseOptions(baseUrl: EndPoints.baseUrl));
+                  final refreshResponse = await refreshDio.post(
                     EndPoints.refreshToken,
-                    options: Options(headers: {'Authorization': 'Bearer $refreshToken'}),
+                    options: Options(
+                      headers: {'Authorization': 'Bearer $refreshToken'},
+                    ),
                   );
-                  final newAccessToken = refreshResponse.data['access_token'] ?? refreshResponse.data['token'];
+
+                  final data = refreshResponse.data;
+                  final newAccessToken = data['access_token'] ??
+                      data['token'] ??
+                      data['data']?['token'];
+
                   if (newAccessToken != null) {
-                    await TokenStorage.saveAccessToken(newAccessToken);
-                    error.requestOptions.headers['Authorization'] = 'Bearer $newAccessToken';
-                    final retryResponse = await _dio!.fetch(error.requestOptions);
+                    await TokenStorage.saveAccessToken(
+                        newAccessToken.toString());
+
+                    // تحديث الهيدر للطلب الأصلي وإعادة تنفيذه
+                    error.requestOptions.headers['Authorization'] =
+                        'Bearer $newAccessToken';
+                    final retryResponse =
+                        await _dio!.fetch(error.requestOptions);
                     return handler.resolve(retryResponse);
                   }
                 } catch (e) {

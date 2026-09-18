@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nti_todo_app/core/services/auth_service.dart';
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/widgets/custom_txt_field.dart';
-import '../../login_screen/data/services/auth_service.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -15,7 +15,8 @@ class ChangePasswordScreen extends StatefulWidget {
 class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController _oldPasswordController = TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final AuthService _authService = AuthService();
 
   bool _obscureOld = true;
@@ -100,7 +101,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     backgroundColor: Colors.white70,
                     radius: 18,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new, size: 16, color: AppColors.textBlack),
+                      icon: const Icon(Icons.arrow_back_ios_new,
+                          size: 16, color: AppColors.textBlack),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
@@ -118,7 +120,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     prefixIcon: Icons.lock_outline,
                     isPassword: true,
                     isObscured: _obscureOld,
-                    onToggleVisibility: () => setState(() => _obscureOld = !_obscureOld),
+                    onToggleVisibility: () =>
+                        setState(() => _obscureOld = !_obscureOld),
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
@@ -127,7 +130,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     prefixIcon: Icons.lock_outline,
                     isPassword: true,
                     isObscured: _obscureNew,
-                    onToggleVisibility: () => setState(() => _obscureNew = !_obscureNew),
+                    onToggleVisibility: () =>
+                        setState(() => _obscureNew = !_obscureNew),
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
@@ -136,7 +140,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     prefixIcon: Icons.lock_outline,
                     isPassword: true,
                     isObscured: _obscureConfirm,
-                    onToggleVisibility: () => setState(() => _obscureConfirm = !_obscureConfirm),
+                    onToggleVisibility: () =>
+                        setState(() => _obscureConfirm = !_obscureConfirm),
                   ),
                   const SizedBox(height: 28),
                   SizedBox(
@@ -145,11 +150,16 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25)),
                       ),
                       onPressed: _isLoading ? null : _handleChangePassword,
                       child: _isLoading
-                          ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                  color: Colors.white, strokeWidth: 2))
                           : const Text('Save', style: AppFonts.buttonText),
                     ),
                   ),

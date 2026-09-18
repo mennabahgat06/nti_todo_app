@@ -1,6 +1,7 @@
 class EndPoints {
   // Update with your remote server IP or base URL
-  static const String baseUrl = "https://todo.iraq-devs.com/"; 
+  static const String baseUrl =
+      "https://ntitodo-production-8a7f.up.railway.app/api/";
 
   // Users / Auth
   static const String register = "register";

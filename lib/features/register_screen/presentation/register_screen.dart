@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:nti_todo_app/core/services/auth_service.dart';
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 import '../../../../core/widgets/custom_txt_field.dart';
-import '../../login_screen/data/services/auth_service.dart';
 import '../../login_screen/presentation/login_screen.dart';
 import '../../home_screen/presentation/home_screen.dart';
 
@@ -17,7 +17,8 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
   final AuthService _authService = AuthService();
 
   bool _obscurePassword = true;
@@ -98,9 +99,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Positioned(
                   bottom: -15,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.white.withOpacity(0.9),
+                      color: AppColors.white.withValues(alpha: 0.9),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: const [
                         BoxShadow(
@@ -135,7 +137,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     prefixIcon: Icons.lock_outline,
                     isPassword: true,
                     isObscured: _obscurePassword,
-                    onToggleVisibility: () => setState(() => _obscurePassword = !_obscurePassword),
+                    onToggleVisibility: () =>
+                        setState(() => _obscurePassword = !_obscurePassword),
                   ),
                   const SizedBox(height: 16),
                   CustomTextField(
@@ -144,7 +147,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     prefixIcon: Icons.lock_outline,
                     isPassword: true,
                     isObscured: _obscureConfirmPassword,
-                    onToggleVisibility: () => setState(() => _obscureConfirmPassword = !_obscureConfirmPassword),
+                    onToggleVisibility: () => setState(() =>
+                        _obscureConfirmPassword = !_obscureConfirmPassword),
                   ),
                   const SizedBox(height: 24),
                   SizedBox(
@@ -159,7 +163,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       onPressed: _isLoading ? null : _handleRegister,
                       child: _isLoading
-                          ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                  color: Colors.white, strokeWidth: 2))
                           : const Text('Register', style: AppFonts.buttonText),
                     ),
                   ),
@@ -167,12 +175,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Already Have An Account? ', style: AppFonts.bodyRegular),
+                      const Text('Already Have An Account? ',
+                          style: AppFonts.bodyRegular),
                       GestureDetector(
                         onTap: () {
                           Navigator.pushReplacement(
                             context,
-                            MaterialPageRoute(builder: (context) => const LoginScreen()),
+                            MaterialPageRoute(
+                                builder: (context) => const LoginScreen()),
                           );
                         },
                         child: Text(

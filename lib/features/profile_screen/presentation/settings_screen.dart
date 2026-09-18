@@ -20,7 +20,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, size: 18, color: AppColors.textBlack),
+          icon: const Icon(Icons.arrow_back_ios_new,
+              size: 18, color: AppColors.textBlack),
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
@@ -41,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             Container(
               decoration: BoxDecoration(
-                color: AppColors.fieldBorder.withOpacity(0.5),
+                color: AppColors.fieldBorder.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Row(

@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:nti_todo_app/features/register_screen/data/models/user_model.dart';
 import '../../../../core/network/api_consumer.dart';
 import '../../../../core/network/dio_consumer.dart';
 import '../../../../core/network/end_points.dart';
 import '../../../../core/storage/token_storage.dart';
-import '../../../register_screen/data/models/user_model.dart';
 
 class AuthService {
   final ApiConsumer apiConsumer = DioConsumer();
@@ -31,7 +31,8 @@ class AuthService {
       final token = response['access_token'] ?? response['token'];
       final refresh = response['refresh_token'];
       if (token != null) {
-        await TokenStorage.saveTokens(accessToken: token, refreshToken: refresh);
+        await TokenStorage.saveTokens(
+            accessToken: token, refreshToken: refresh);
       }
       await TokenStorage.saveUsername(username);
       return UserModel.fromJson(response['user'] ?? response);
@@ -56,7 +57,8 @@ class AuthService {
       final token = response['access_token'] ?? response['token'];
       final refresh = response['refresh_token'];
       if (token != null) {
-        await TokenStorage.saveTokens(accessToken: token, refreshToken: refresh);
+        await TokenStorage.saveTokens(
+            accessToken: token, refreshToken: refresh);
       }
       await TokenStorage.saveUsername(username);
     }
