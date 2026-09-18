@@ -5,7 +5,8 @@ class TokenStorage {
   static const String _refreshTokenKey = 'refresh_token';
   static const String _usernameKey = 'username';
 
-  static Future<void> saveTokens({required String accessToken, String? refreshToken}) async {
+  static Future<void> saveTokens(
+      {required String accessToken, String? refreshToken}) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_accessTokenKey, accessToken);
     if (refreshToken != null) {
@@ -41,5 +42,15 @@ class TokenStorage {
   static Future<void> clear() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
+  }
+
+  static Future<void> saveLanguage(String langCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('app_language', langCode);
+  }
+
+  static Future<String> getLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('app_language') ?? 'en';
   }
 }

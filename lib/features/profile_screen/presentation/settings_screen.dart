@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nti_todo_app/core/storage/token_storage.dart';
+import 'package:nti_todo_app/main.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_fonts.dart';
 
@@ -11,6 +13,21 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   String _selectedLanguage = 'EN';
+
+  @override
+  void initState() {
+    _changeLanguage(_selectedLanguage);
+  }
+
+  Future<void> _changeLanguage(String code) async {
+    if (_selectedLanguage == code) return;
+
+    setState(() => _selectedLanguage = code);
+
+    final langCode = code.toLowerCase();
+    await TokenStorage.saveLanguage(langCode);
+    appLocaleNotifier.value = Locale(langCode);
+  }
 
   @override
   Widget build(BuildContext context) {
