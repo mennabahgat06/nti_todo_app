@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/utils/app_assets.dart';
-import 'package:todo_app/core/utils/app_colors.dart';
-import 'package:todo_app/core/utils/app_fonts.dart';
-import 'package:todo_app/core/widgets/custom_txt_field.dart';
-import 'package:todo_app/features/login_screen/presentation/login_screen.dart';
+import 'package:nti_todo_app/core/services/auth_service.dart';
+import '../../../../core/utils/app_assets.dart';
+import '../../../../core/utils/app_colors.dart';
+import '../../../../core/utils/app_fonts.dart';
+import '../../../../core/widgets/custom_txt_field.dart';
+import '../../login_screen/presentation/login_screen.dart';
+import '../../home_screen/presentation/home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -13,33 +15,75 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  // controllers for the text fields
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
+  final AuthService _authService = AuthService();
 
-// variables to manage the visibility of password fields
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleRegister() async {
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirm = _confirmPasswordController.text.trim();
+
+    if (username.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all required fields')),
+      );
+      return;
+    }
+
+    if (password != confirm) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Passwords do not match')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+    try {
+      await _authService.register(
+        username: username,
+        password: password,
+      );
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(e.toString())),
+      );
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appearance of the screen
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         child: Column(
-          // main content of the screen
           children: [
-            /// ***************** 1- Header ****************************************
-
-            // 1- header image with "Pick Image" button
             Stack(
               clipBehavior: Clip.none,
               alignment: Alignment.bottomCenter,
               children: [
-                // first widg in stake
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
                     bottomLeft: Radius.circular(28),
@@ -52,11 +96,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     fit: BoxFit.cover,
                   ),
                 ),
-
-                // second widg in stake
                 Positioned(
-                  bottom: -15, // TRY : 00
-
+                  bottom: -15,
                   child: Container(
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
@@ -80,24 +121,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ],
             ),
             const SizedBox(height: 36),
-
-            /// ***************** 2- Registration Form ****************************************
-
-            // 2- form fields and buttons
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24.0),
               child: Column(
                 children: [
-                  // 1- username
                   CustomTextField(
                     controller: _usernameController,
                     hintText: 'Username',
                     prefixIcon: Icons.person_outline,
                   ),
                   const SizedBox(height: 16),
-
-                  // 2- password
                   CustomTextField(
                     controller: _passwordController,
                     hintText: 'Password',
@@ -108,8 +141,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         setState(() => _obscurePassword = !_obscurePassword),
                   ),
                   const SizedBox(height: 16),
-
-                  // 3- confirm password
                   CustomTextField(
                     controller: _confirmPasswordController,
                     hintText: 'Confirm Password',
@@ -120,8 +151,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         _obscureConfirmPassword = !_obscureConfirmPassword),
                   ),
                   const SizedBox(height: 24),
-
-                  // 4- register button
                   SizedBox(
                     width: double.infinity,
                     height: 50,
@@ -132,19 +161,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           borderRadius: BorderRadius.circular(25),
                         ),
                       ),
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginScreen()),
-                        );
-                      },
-                      child: const Text('Register', style: AppFonts.buttonText),
+                      onPressed: _isLoading ? null : _handleRegister,
+                      child: _isLoading
+                          ? const SizedBox(
+                              width: 20,
+                              height: 20,
+                              child: CircularProgressIndicator(
+                                  color: Colors.white, strokeWidth: 2))
+                          : const Text('Register', style: AppFonts.buttonText),
                     ),
                   ),
                   const SizedBox(height: 18),
-
-                  // 5- login link
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -175,13 +202,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _usernameController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
   }
 }

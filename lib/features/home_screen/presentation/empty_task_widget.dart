@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/utils/app_assets.dart';
-import 'package:todo_app/core/utils/app_fonts.dart';
+import '../../../core/utils/app_assets.dart';
+import '../../../core/utils/app_fonts.dart';
 
-class EmptyTasksWidget extends StatelessWidget {
-  const EmptyTasksWidget({super.key});
+class EmptyTaskWidget extends StatelessWidget {
+  const EmptyTaskWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

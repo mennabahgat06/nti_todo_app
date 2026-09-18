@@ -1,13 +1,11 @@
 class AppAssets {
   static const String basePath = 'assets/images';
 
-  // PNG Images
   static const String flagPng = '$basePath/flag.png';
   static const String noTasksPng = '$basePath/no_tasks.png';
   static const String splashBgPng = '$basePath/splash_bg.png';
   static const String startPng = '$basePath/start.png';
 
-  // SVG Images (تحتاج استخدام مكتبة flutter_svg)
   static const String flagSvg = '$basePath/flag.svg';
   static const String noTasksSvg = '$basePath/no_tasks.svg';
   static const String splashBgSvg = '$basePath/splash_bg.svg';

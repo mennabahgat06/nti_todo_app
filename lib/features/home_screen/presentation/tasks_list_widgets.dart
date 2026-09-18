@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/core/utils/app_colors.dart';
-import 'package:todo_app/features/home_screen/data/models/task_model.dart';
+import '../../../core/utils/app_colors.dart';
+import '../data/models/task_model.dart';
 import 'task_card_item.dart';
 
-class TasksListWidget extends StatelessWidget {
+class TasksListWidgets extends StatelessWidget {
   final List<TaskModel> tasks;
-  final Function(TaskModel task) onTaskTap;
+  final Function(TaskModel) onTaskTap;
 
-  const TasksListWidget({
+  const TasksListWidgets({
     super.key,
     required this.tasks,
     required this.onTaskTap,
@@ -22,11 +22,7 @@ class TasksListWidget extends StatelessWidget {
           children: [
             const Text(
               'Tasks',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textBlack,
-              ),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textBlack),
             ),
             const SizedBox(width: 8),
             Container(
@@ -37,22 +33,16 @@ class TasksListWidget extends StatelessWidget {
               ),
               child: Text(
                 '${tasks.length}',
-                style: const TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryDark,
-                ),
+                style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppColors.primaryDark),
               ),
             ),
           ],
         ),
         const SizedBox(height: 14),
-        ...tasks.map(
-          (task) => TaskCardItem(
-            task: task,
-            onTap: () => onTaskTap(task),
-          ),
-        ),
+        ...tasks.map((task) => TaskCardItem(
+              task: task,
+              onTap: () => onTaskTap(task),
+            )),
       ],
     );
   }
